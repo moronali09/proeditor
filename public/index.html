@@ -1,334 +1,1356 @@
-<!doctype html>
-<html lang="bn">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PRO EDITOR</title>
-  <style>
-    :root{
-      --bg:#f7f7fb;--card:#ffffff;--card2:#fbfbfe;--line:#e7e7ef;--text:#111111;--muted:#666a78;
-      --accent:#3c0d88;--accent2:#411a5c;--danger:#111111;--shadow:0 12px 30px rgba(17,17,17,.08);
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#fff,#f4f4f8);color:var(--text)}
-    .wrap{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
-    .top{position:sticky;top:0;z-index:8;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(255,255,255,.86);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
-    .brand{font-weight:900;letter-spacing:.4px}
-    .brand span{color:var(--accent)}
-    .stats{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-    .pill,.badge,.tag{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;font-size:12px;box-shadow:var(--shadow)}
-    .avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#fff,#ece8ff);font-weight:800;cursor:pointer;border:1px solid var(--line);color:var(--accent)}
-    .menu{position:absolute;right:0;top:44px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;display:none;min-width:150px}
-    .menu.show{display:block}.menu button{width:100%;padding:10px 12px;border:0;background:#fff;text-align:left;cursor:pointer}.menu button:hover{background:#f3f0ff}
-    .panel{padding:14px 16px 88px;flex:1}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:var(--shadow);margin-bottom:12px}
-    .row,.actions,.switch{display:flex;gap:8px;align-items:center}
-    .row{justify-content:space-between;flex-wrap:wrap}
-    .actions{flex-wrap:wrap;margin-top:10px}
-    .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:grid;grid-template-columns:repeat(3,1fr);background:rgba(255,255,255,.96);border-top:1px solid var(--line);backdrop-filter:blur(18px)}
-    .tab{padding:12px 8px;border:0;background:transparent;font-weight:700;color:#555;cursor:pointer}.tab.active{color:var(--accent)}.hidden{display:none!important}
-    input,button,textarea{font:inherit}.btn,.ghost,.danger{border-radius:14px;padding:10px 14px;border:1px solid var(--line);cursor:pointer}
-    .btn{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:800}.ghost{background:#fff;color:var(--text)}.danger{background:#111;color:#fff;border-color:#111}
-    input,textarea{width:100%;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--text);outline:none}
-    input:focus,textarea:focus{border-color:#c9bcff;box-shadow:0 0 0 3px rgba(111,60,255,.08)}
-    .grid{display:grid;gap:10px}.small{font-size:12px;color:var(--muted)}.meta{display:flex;gap:10px;justify-content:space-between;color:var(--muted);font-size:12px;margin-top:6px}
-    .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:16px;border:1px solid var(--line);background:#f3f3f8}
-    .post .title{font-weight:800;margin:10px 0 4px}.post .meta{margin-top:0}
-    .range{width:100%}.leader,.ranktable{display:grid;gap:8px}.member,.rankrow{display:flex;justify-content:space-between;gap:10px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff}
-    .rankrow.active{outline:2px solid rgba(111,60,255,.16)}.dot{width:9px;height:9px;border-radius:50%;display:inline-block;background:var(--accent)}
-    .formgrid{display:grid;gap:10px}.preview{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:16px;border:1px solid var(--line);background:#f3f3f8}
-    .modal{position:fixed;inset:0;background:rgba(17,17,17,.42);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}.modal.show{display:flex}
-    .modalbox{width:min(520px,100%);background:#fff;border-radius:20px;padding:16px;border:1px solid var(--line);box-shadow:var(--shadow)}
-    .toast{position:fixed;left:50%;bottom:82px;transform:translateX(-50%);background:#111;color:#fff;padding:10px 14px;border-radius:999px;display:none;z-index:30;box-shadow:var(--shadow)}
-    .switch button{flex:1}.topwrap{position:relative}.chip{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#f2ecff;color:var(--accent);font-size:12px;font-weight:800}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProEditor - Rank System</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --card: #f8f8f8;
+    --card2: #f3f3f3;
+    --border: #e5e5e5;
+    --text: #111111;
+    --muted: #666666;
+    --purple: #6d28d9;
+    --purple-light: #ede9fe;
+    --purple-dark: #5b21b6;
+    --danger: #dc2626;
+    --success: #16a34a;
+    --radius: 12px;
+    --shadow: 0 1px 4px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    color: var(--purple);
+  }
+  .nav-logo span { color: var(--text); }
+  .nav-links { display: flex; gap: 8px; align-items: center; }
+  .nav-btn {
+    padding: 6px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.15s;
+    background: transparent;
+    color: var(--text);
+  }
+  .nav-btn:hover { background: var(--card); }
+  .nav-btn.active { background: var(--purple-light); color: var(--purple); }
+  .nav-btn.primary { background: var(--purple); color: #fff; }
+  .nav-btn.primary:hover { background: var(--purple-dark); }
+  .nav-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .nav-user strong { color: var(--text); }
+
+  /* PAGES */
+  .page { display: none; min-height: calc(100vh - 60px); padding: 32px 24px; max-width: 1100px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* LOGIN */
+  .login-wrap {
+    max-width: 420px;
+    margin: 80px auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px;
+    box-shadow: var(--shadow-md);
+  }
+  .login-wrap h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .login-wrap p { color: var(--muted); margin-bottom: 28px; font-size: 14px; }
+
+  /* FORMS */
+  .form-group { margin-bottom: 18px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+  input[type=text], input[type=password], input[type=file], textarea, select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+    color: var(--text);
+    transition: border-color 0.15s;
+    outline: none;
+  }
+  input:focus, textarea:focus { border-color: var(--purple); }
+  input[type=file] { padding: 8px 12px; cursor: pointer; }
+  .file-hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .btn-primary { background: var(--purple); color: #fff; }
+  .btn-primary:hover { background: var(--purple-dark); }
+  .btn-secondary { background: var(--card2); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--border); }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-danger:hover { background: #b91c1c; }
+  .btn-sm { padding: 6px 12px; font-size: 13px; border-radius: 6px; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-full { width: 100%; justify-content: center; }
+
+  /* ALERTS */
+  .alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .alert.show { display: block; }
+  .alert-error { background: #fef2f2; border: 1px solid #fecaca; color: var(--danger); }
+  .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: var(--success); }
+
+  /* SECTION HEADERS */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .section-header h2 { font-size: 22px; font-weight: 700; }
+
+  /* CARDS GRID */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  /* VIDEO CARD */
+  .video-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+    box-shadow: var(--shadow);
+  }
+  .video-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+  .video-thumb {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: #111;
+    overflow: hidden;
+  }
+  .video-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .video-thumb video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+  .video-thumb:hover video { display: block; }
+  .video-thumb:hover img { display: none; }
+  .video-thumb .play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.25);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+  .video-thumb:hover .play-overlay { opacity: 1; }
+  .play-overlay svg { width: 48px; height: 48px; color: #fff; }
+
+  .video-body { padding: 14px 16px; }
+  .video-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .video-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .video-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--purple-light);
+    color: var(--purple);
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .video-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* VOTE SLIDER */
+  .vote-box {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .vote-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .vote-label strong { font-size: 20px; color: var(--purple); font-weight: 800; }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    background: var(--purple);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 0 3px var(--purple-light);
+  }
+  .vote-done {
+    font-size: 13px;
+    color: var(--success);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 32px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: var(--shadow-md);
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.2s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .modal-header h3 { font-size: 18px; font-weight: 700; }
+  .modal-close {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--card2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--muted);
+  }
+  .modal-close:hover { background: var(--border); }
+
+  /* RANKING */
+  .rank-table { width: 100%; border-collapse: collapse; }
+  .rank-table th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    border-bottom: 2px solid var(--border);
+  }
+  .rank-table td {
+    padding: 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .rank-table tr:last-child td { border-bottom: none; }
+  .rank-table tr:hover td { background: var(--card); }
+  .rank-pos {
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--muted);
+    width: 40px;
+  }
+  .rank-pos.gold { color: #d97706; }
+  .rank-pos.silver { color: #6b7280; }
+  .rank-pos.bronze { color: #b45309; }
+
+  .rank-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+  .badge-F { background: #f3f4f6; color: #6b7280; }
+  .badge-D { background: #fef3c7; color: #92400e; }
+  .badge-C { background: #d1fae5; color: #065f46; }
+  .badge-B { background: #dbeafe; color: #1e40af; }
+  .badge-A { background: #e0e7ff; color: #3730a3; }
+  .badge-S { background: #ede9fe; color: #5b21b6; }
+  .badge-SS { background: var(--purple); color: #fff; }
+  .badge-SSR {
+    background: linear-gradient(135deg, #7c3aed, #db2777);
+    color: #fff;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(109,40,217,0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(109,40,217,0); }
+  }
+
+  .progress-bar-wrap {
+    background: var(--border);
+    border-radius: 4px;
+    height: 6px;
+    margin-top: 4px;
+    overflow: hidden;
+    width: 120px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--purple);
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+
+  /* ADMIN TABS */
+  .tab-nav {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0;
+  }
+  .tab-btn {
+    padding: 10px 18px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.15s;
+  }
+  .tab-btn.active { color: var(--purple); border-bottom-color: var(--purple); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* STATS CARDS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .stat-card .label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 6px; }
+  .stat-card .value { font-size: 28px; font-weight: 800; color: var(--purple); }
+
+  /* SEARCH */
+  .search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .search-bar input { flex: 1; }
+
+  /* USER ROW */
+  .user-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+  .user-row:last-child { border-bottom: none; }
+  .user-info { display: flex; align-items: center; gap: 10px; }
+  .avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    color: var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .kicked-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    background: #fee2e2;
+    color: var(--danger);
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .actions-row { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* UPLOAD PROGRESS */
+  .upload-progress {
+    margin-top: 12px;
+    display: none;
+  }
+  .upload-progress.show { display: block; }
+  .upload-progress-bar {
+    background: var(--border);
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .upload-progress-fill {
+    height: 100%;
+    background: var(--purple);
+    border-radius: 4px;
+    transition: width 0.3s;
+    width: 0%;
+  }
+  .upload-status { font-size: 13px; color: var(--muted); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    nav { padding: 0 16px; }
+    .page { padding: 20px 16px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .nav-links .nav-label { display: none; }
+    .login-wrap { padding: 28px 20px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .rank-table { font-size: 13px; }
+    .rank-table td { padding: 10px; }
+    .progress-bar-wrap { width: 80px; }
+  }
+
+  /* SPINNER */
+  .spinner {
+    width: 20px; height: 20px;
+    border: 2px solid var(--border);
+    border-top-color: var(--purple);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+  .empty-state svg { width: 48px; height: 48px; margin-bottom: 12px; opacity: 0.4; }
+  .empty-state p { font-size: 15px; }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="top">
-      <div class="brand">PRO <span>EDITOR</span></div>
-      <div class="stats">
-        <div class="pill hidden" id="rolePill">Member</div>
-        <div class="pill hidden" id="memberPill">Members: 0</div>
-        <div class="topwrap">
-          <button class="avatar hidden" id="avatarBtn">U</button>
-          <div class="menu" id="userMenu">
-            <button id="profileBtn" class="hidden">Edit Profile</button>
-            <button id="logoutBtn">Logout</button>
-          </div>
-        </div>
-      </div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Pro<span>Editor</span></div>
+  <div class="nav-links" id="navLinks">
+    <button class="nav-btn" onclick="showPage('home')"><span class="nav-label">Feed</span></button>
+    <button class="nav-btn" onclick="showPage('ranking')"><span class="nav-label">Ranking</span></button>
+    <span class="nav-user" id="navUser" style="display:none">
+      <strong id="navUsername"></strong>
+    </span>
+    <button class="nav-btn" id="profileBtn" onclick="showPage('profile')" style="display:none">Profile</button>
+    <button class="nav-btn" id="adminBtn" onclick="showPage('admin')" style="display:none">Admin</button>
+    <button class="nav-btn primary" id="loginBtn" onclick="showPage('login')">Login</button>
+    <button class="nav-btn" id="logoutBtn" onclick="doLogout()" style="display:none">Logout</button>
+  </div>
+</nav>
+
+<!-- LOGIN PAGE -->
+<div id="page-login" class="page">
+  <div class="login-wrap">
+    <h2>Welcome back</h2>
+    <p>Sign in to your ProEditor account</p>
+    <div class="alert alert-error" id="loginError"></div>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="loginUsername" placeholder="Enter username" autocomplete="username">
     </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="doLogin()">Sign In</button>
+  </div>
+</div>
 
-    <div class="panel" id="app"></div>
+<!-- HOME FEED -->
+<div id="page-home" class="page active">
+  <div class="section-header">
+    <h2>Video Feed</h2>
+    <button class="btn btn-primary" id="createPostBtn" onclick="openCreateModal()" style="display:none">+ Upload Video</button>
+  </div>
+  <div class="cards-grid" id="videoGrid">
+    <div class="empty-state">
+      <div class="spinner"></div>
+      <p style="margin-top:12px">Loading videos…</p>
+    </div>
+  </div>
+</div>
 
-    <div class="tabbar hidden" id="tabs">
-      <button class="tab active" data-tab="feed" id="feedTabBtn">Feed</button>
-      <button class="tab" data-tab="rank" id="rankTabBtn">Rank</button>
-      <button class="tab hidden" data-tab="admin" id="adminTabBtn">Admin</button>
+<!-- RANKING PAGE -->
+<div id="page-ranking" class="page">
+  <div class="section-header">
+    <h2>🏆 Leaderboard</h2>
+  </div>
+  <div style="overflow-x:auto; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow);">
+    <table class="rank-table" id="rankTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Member</th>
+          <th>Rank</th>
+          <th>Points</th>
+          <th>Progress</th>
+          <th>Videos</th>
+          <th>Votes</th>
+        </tr>
+      </thead>
+      <tbody id="rankBody">
+        <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)"><div class="spinner"></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PROFILE PAGE -->
+<div id="page-profile" class="page">
+  <div style="max-width:480px">
+    <div class="section-header">
+      <h2>Profile</h2>
+    </div>
+    <div class="alert alert-error" id="profileError"></div>
+    <div class="alert alert-success" id="profileSuccess"></div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;">
+      <div id="adminProfileNote" style="display:none;background:var(--purple-light);color:var(--purple);padding:12px 16px;border-radius:8px;margin-bottom:20px;font-size:14px;font-weight:600;">
+        Admin account — username and password are fixed.
+      </div>
+      <div class="form-group" id="usernameGroup">
+        <label>New Username</label>
+        <input type="text" id="profileUsername" placeholder="Leave empty to keep current">
+      </div>
+      <div class="form-group" id="passwordGroup">
+        <label>New Password</label>
+        <input type="password" id="profilePassword" placeholder="Leave empty to keep current">
+      </div>
+      <button class="btn btn-primary" id="saveProfileBtn" onclick="saveProfile()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PAGE -->
+<div id="page-admin" class="page">
+  <div class="section-header">
+    <h2>Admin Panel</h2>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid" id="adminStats">
+    <div class="stat-card"><div class="label">Members</div><div class="value" id="statMembers">—</div></div>
+    <div class="stat-card"><div class="label">Videos</div><div class="value" id="statVideos">—</div></div>
+    <div class="stat-card"><div class="label">Votes</div><div class="value" id="statVotes">—</div></div>
+    <div class="stat-card"><div class="label">Avg Rating</div><div class="value" id="statAvg">—</div></div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('members')">Members</button>
+    <button class="tab-btn" onclick="switchTab('posts')">Posts</button>
+    <button class="tab-btn" onclick="switchTab('createuser')">Create User</button>
+    <button class="tab-btn" onclick="switchTab('import')">Import</button>
+  </div>
+
+  <!-- Members tab -->
+  <div class="tab-content active" id="tab-members">
+    <div class="search-bar">
+      <input type="text" id="memberSearch" placeholder="Search members…" oninput="searchMembers()">
+    </div>
+    <div id="membersList"></div>
+  </div>
+
+  <!-- Posts tab -->
+  <div class="tab-content" id="tab-posts">
+    <div class="search-bar">
+      <input type="text" id="postSearch" placeholder="Search posts…" oninput="searchPosts()">
+    </div>
+    <div id="adminPostsList"></div>
+  </div>
+
+  <!-- Create User tab -->
+  <div class="tab-content" id="tab-createuser">
+    <div style="max-width:400px">
+      <div class="alert alert-error" id="createUserError"></div>
+      <div class="alert alert-success" id="createUserSuccess"></div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="newUserUsername" placeholder="Enter username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="newUserPassword" placeholder="Enter password">
+      </div>
+      <button class="btn btn-primary" onclick="createUser()">Create User</button>
     </div>
   </div>
 
-  <div class="modal" id="modal"><div class="modalbox" id="modalBox"></div></div>
-  <div class="toast" id="toast"></div>
+  <!-- Import tab -->
+  <div class="tab-content" id="tab-import">
+    <div style="max-width:400px">
+      <p style="color:var(--muted);margin-bottom:16px;font-size:14px">Upload a <code>seed-users.json</code> file to import users in bulk. Existing usernames are skipped.</p>
+      <div class="alert alert-error" id="importError"></div>
+      <div class="alert alert-success" id="importSuccess"></div>
+      <div class="form-group">
+        <label>seed-users.json</label>
+        <input type="file" id="seedFile" accept=".json">
+        <div class="file-hint">Format: [{"username":"user1","password":"pass1"},…]</div>
+      </div>
+      <button class="btn btn-primary" onclick="importUsers()">Import Users</button>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE/EDIT VIDEO MODAL -->
+<div class="modal-overlay" id="videoModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="videoModalTitle">Upload Video</h3>
+      <button class="modal-close" onclick="closeModal('videoModal')">×</button>
+    </div>
+    <div class="alert alert-error" id="videoModalError"></div>
+    <div class="form-group">
+      <label>Title *</label>
+      <input type="text" id="videoTitle" placeholder="Enter video title">
+    </div>
+    <div class="form-group" id="videoFileGroup">
+      <label>Video File *</label>
+      <input type="file" id="videoFile" accept="video/mp4,video/webm">
+      <div class="file-hint">MP4 or WebM · Max 200MB</div>
+    </div>
+    <div class="form-group">
+      <label>Thumbnail (optional)</label>
+      <input type="file" id="thumbnailFile" accept="image/png,image/jpeg,image/webp">
+      <div class="file-hint">PNG, JPG, or WebP · Max 10MB · Auto-generated if empty</div>
+    </div>
+    <div class="upload-progress" id="uploadProgress">
+      <div class="upload-status" id="uploadStatus">Uploading…</div>
+      <div class="upload-progress-bar">
+        <div class="upload-progress-fill" id="uploadProgressFill"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:8px">
+      <button class="btn btn-primary" id="videoSubmitBtn" onclick="submitVideo()">Upload</button>
+      <button class="btn btn-secondary" onclick="closeModal('videoModal')">Cancel</button>
+    </div>
+    <input type="hidden" id="editingVideoId">
+  </div>
+</div>
+
+<!-- VIDEO VIEWER MODAL -->
+<div class="modal-overlay" id="viewModal">
+  <div class="modal" style="max-width:720px">
+    <div class="modal-header">
+      <h3 id="viewModalTitle"></h3>
+      <button class="modal-close" onclick="closeModal('viewModal')">×</button>
+    </div>
+    <video id="viewVideo" controls style="width:100%;border-radius:8px;background:#000;margin-bottom:16px" preload="metadata"></video>
+    <div id="viewVideoInfo" style="font-size:14px;color:var(--muted)"></div>
+  </div>
+</div>
 
 <script>
-let me = null;
-let state = { posts: [], rank: { name: 'F', color: '#555' }, top10Total: 0, counted: 0, membersCount: 0, leaderboard: [] };
-let currentTab = 'feed';
-const app = document.getElementById('app');
-const tabs = document.getElementById('tabs');
-const toastEl = document.getElementById('toast');
-const modal = document.getElementById('modal');
-const modalBox = document.getElementById('modalBox');
-const rolePill = document.getElementById('rolePill');
-const memberPill = document.getElementById('memberPill');
-const avatarBtn = document.getElementById('avatarBtn');
-const userMenu = document.getElementById('userMenu');
-const profileBtn = document.getElementById('profileBtn');
+// ─── State ─────────────────────────────────────────────────────────────────────
+let currentUser = null;
+let videosCache = [];
+let editingVideoId = null;
 
-function toast(msg){ toastEl.textContent = msg; toastEl.style.display = 'block'; clearTimeout(toast._t); toast._t = setTimeout(()=>toastEl.style.display='none', 1800); }
-function showModal(html){ modalBox.innerHTML = html; modal.classList.add('show'); }
-function closeModal(){ modal.classList.remove('show'); modalBox.innerHTML = ''; }
-function initials(name){ return (name||'?').slice(0,2).toUpperCase(); }
-async function api(url, method='GET', body=null, isForm=false){
-  const opt = { method, credentials:'include', headers:{} };
-  if(body){ if(isForm){ opt.body = body; } else { opt.headers['Content-Type']='application/json'; opt.body = JSON.stringify(body); } }
-  const r = await fetch(url, opt);
-  const data = await r.json().catch(()=>({}));
-  if(!r.ok) throw new Error(data.error || 'error');
-  return data;
+// ─── Init ──────────────────────────────────────────────────────────────────────
+(async () => {
+  const res = await fetch('/auth/me');
+  const data = await res.json();
+  if (data.user) {
+    currentUser = data.user;
+    updateNavForUser();
+  }
+  loadVideos();
+})();
+
+// ─── Navigation ────────────────────────────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  if (name === 'home') loadVideos();
+  if (name === 'ranking') loadRanking();
+  if (name === 'admin') loadAdminPage();
+  if (name === 'profile') setupProfile();
 }
-function setTabs(){ document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active', b.dataset.tab===currentTab)); }
-function topUI(){
-  rolePill.classList.remove('hidden'); memberPill.classList.remove('hidden'); avatarBtn.classList.remove('hidden'); tabs.classList.remove('hidden');
-  rolePill.textContent = me.role === 'admin' ? 'Admin' : 'Member';
-  memberPill.textContent = `Members: ${state.membersCount}`;
-  avatarBtn.textContent = initials(me.username);
-  document.getElementById('adminTabBtn').classList.toggle('hidden', me.role !== 'admin');
-  profileBtn.classList.toggle('hidden', me.role !== 'member');
+
+function updateNavForUser() {
+  if (currentUser) {
+    document.getElementById('loginBtn').style.display = 'none';
+    document.getElementById('logoutBtn').style.display = '';
+    document.getElementById('navUser').style.display = '';
+    document.getElementById('navUsername').textContent = currentUser.username;
+    document.getElementById('profileBtn').style.display = '';
+    document.getElementById('createPostBtn').style.display = currentUser.is_admin ? 'none' : '';
+    if (currentUser.is_admin) document.getElementById('adminBtn').style.display = '';
+  } else {
+    document.getElementById('loginBtn').style.display = '';
+    document.getElementById('logoutBtn').style.display = 'none';
+    document.getElementById('navUser').style.display = 'none';
+    document.getElementById('profileBtn').style.display = 'none';
+    document.getElementById('adminBtn').style.display = 'none';
+    document.getElementById('createPostBtn').style.display = 'none';
+  }
 }
-function loginView(){
-  app.innerHTML = `
-    <div class="card">
-      <h2 style="margin-top:0">Login</h2>
-      <div class="switch"><button class="btn" id="memberTab">Member</button><button class="ghost" id="adminTab">Admin</button></div>
-      <div style="height:12px"></div>
-      <div class="grid">
-        <input id="u" placeholder="username">
-        <input id="p" type="password" placeholder="password">
-        <button class="btn" id="go">Login</button>
-        <button class="ghost" id="reg">Register</button>
-      </div>
-      <div class="small" style="margin-top:10px">fatema best editor then me </div>
-    </div>`;
-  let mode = 'member';
-  const memberTab = document.getElementById('memberTab');
-  const adminTab = document.getElementById('adminTab');
-  const reg = document.getElementById('reg');
-  const setMode = (m)=>{ mode=m; memberTab.className = m==='member' ? 'btn' : 'ghost'; adminTab.className = m==='admin' ? 'btn' : 'ghost'; reg.style.display = m==='member' ? 'block' : 'none'; };
-  memberTab.onclick = ()=>setMode('member');
-  adminTab.onclick = ()=>setMode('admin');
-  setMode('member');
-  document.getElementById('go').onclick = async()=>{
-    try{
-      await api('/api/auth/login','POST',{username:document.getElementById('u').value,password:document.getElementById('p').value});
-      toast('Logged in');
-      await boot();
-    }catch(e){ toast(e.message); }
-  };
-  reg.onclick = ()=>{
-    showModal(`
-      <h3 style="margin-top:0">Register Member</h3>
-      <div class="grid">
-        <input id="ru" placeholder="username">
-        <input id="rp" type="password" placeholder="password">
-        <button class="btn" id="rs">Create account</button>
-      </div>`);
-    document.getElementById('rs').onclick = async()=>{
-      try{
-        await api('/api/auth/register','POST',{username:document.getElementById('ru').value,password:document.getElementById('rp').value});
-        toast('Registered');
-        closeModal();
-        await boot();
-      }catch(e){ toast(e.message); }
-    };
-  };
-}
-function rankRows(){
-  const rows = [['SSR',650],['SS',550],['S',450],['A',350],['B',250],['C',150],['D',80],['F',0]];
-  return rows.map(([n,m])=>`<div class="rankrow ${state.rank.name===n ? 'active' : ''}"><div><b>${n}</b> <span class="small">${m}+</span></div><div>${state.top10Total>=m ? '<span class="dot"></span>' : ''}</div></div>`).join('');
-}
-function leaderboardHtml(){
-  return state.leaderboard.map((m, idx)=>`<div class="member"><div><b>#${idx+1} ${m.username}</b> ${m.kicked ? '<span class="tag">Kicked</span>' : ''}<div class="small">Rank ${m.rank} · ${m.top10Points} pts · Posts ${m.posts}</div></div><div><span class="chip">${m.rank}</span></div></div>`).join('');
-}
-function thumbSrc(p){ return p.thumbnailPath || p.thumbnailUrl || (p.videoPath ? p.videoPath : 'https://placehold.co/800x450/f4f4f8/111111?text=Preview'); }
-function postCard(p){
-  const voted = p.myVote !== null && p.myVote !== undefined;
-  const media = p.videoPath ? `<video class="thumb" controls src="${p.videoPath}" poster="${thumbSrc(p)}"></video>` : `<img class="thumb" src="${thumbSrc(p)}">`;
-  return `<div class="card post">
-    ${p.isTop10 ? '<div class="badge">TOP 10</div>' : ''}
-    ${media}
-    <div class="title">${p.title} <span class="badge">${p.totalPoints} pts</span></div>
-    <div class="meta"><span>By ${p.owner}</span><span>${p.voteCount} votes</span></div>
-    ${voted ? `<div class="small">✓: ${p.myVote}/10</div>` : ''}
-    ${me.role==='member' && me.username.toLowerCase()!==p.owner.toLowerCase() && !voted ? `<div class="actions"><div style="width:100%"><div class="small">Rate: <b><span id="sv-${p.id}">5</span>/10</b></div><input class="range" type="range" min="0" max="10" value="5" id="r-${p.id}" oninput="document.getElementById('sv-${p.id}').textContent=this.value"></div><button class="btn" onclick="votePost('${p.id}')">Vote</button></div>` : ''}
-    ${(me.role==='admin' || me.username.toLowerCase()===p.owner.toLowerCase()) ? `<div class="actions"><button class="ghost" onclick="editPost('${p.id}')">Edit</button><button class="danger" onclick="delPost('${p.id}')">Delete</button></div>` : ''}
-  </div>`;
-}
-async function createThumbnailFileFromVideo(file){
-  return new Promise((resolve, reject)=>{
-    const video = document.createElement('video');
-    const url = URL.createObjectURL(file);
-    video.preload = 'metadata'; video.src = url; video.muted = true; video.playsInline = true;
-    video.onloadeddata = ()=>{ try{ video.currentTime = Math.min(1, (video.duration || 2) / 2); }catch{} };
-    video.onseeked = ()=>{
-      try{
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth || 1280; canvas.height = video.videoHeight || 720;
-        const ctx = canvas.getContext('2d'); ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        canvas.toBlob((blob)=>{ URL.revokeObjectURL(url); if(!blob) return reject(new Error('thumbnail failed')); resolve(new File([blob], `thumb-${Date.now()}.jpg`, { type:'image/jpeg' })); }, 'image/jpeg', 0.88);
-      }catch(err){ URL.revokeObjectURL(url); reject(err); }
-    };
-    video.onerror = ()=>{ URL.revokeObjectURL(url); reject(new Error('video preview failed')); };
+
+// ─── Auth ──────────────────────────────────────────────────────────────────────
+async function doLogin() {
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const err = document.getElementById('loginError');
+  err.classList.remove('show');
+
+  if (!username || !password) { showAlert(err, 'Please fill all fields'); return; }
+
+  const res = await fetch('/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
   });
+  const data = await res.json();
+
+  if (!res.ok) { showAlert(err, data.error); return; }
+
+  currentUser = data.user;
+  updateNavForUser();
+  showPage('home');
 }
-function postForm(post={}){
-  return `
-    <h3 style="margin-top:0">${post.id ? 'Edit Post' : 'New Post'}</h3>
-    <div class="grid">
-      <input id="ptitle" placeholder="title" value="${post.title || ''}">
-      <input id="purl" placeholder="thumbnail url" value="${post.thumbnailUrl || ''}">
-      <input id="pvideo" type="file" accept="video/*">
-      <input id="pthumb" type="file" accept="image/*">
-      <img class="preview" id="thumbPreview" src="${thumbSrc(post)}">
-      <div class="small">Thumbnail file na dile video theke auto thumbnail hobe</div>
-      <button class="btn" id="savePost">Save</button>
-    </div>`;
+
+document.getElementById('loginPassword').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+async function doLogout() {
+  await fetch('/auth/logout', { method: 'POST' });
+  currentUser = null;
+  updateNavForUser();
+  showPage('home');
 }
-async function openPostModal(post={}){
-  showModal(postForm(post));
-  const pvideo = document.getElementById('pvideo');
-  const pthumb = document.getElementById('pthumb');
-  const purl = document.getElementById('purl');
-  const preview = document.getElementById('thumbPreview');
-  const refresh = async()=>{
-    const thumbFile = pthumb.files?.[0];
-    const videoFile = pvideo.files?.[0];
-    const url = purl.value.trim();
-    if(thumbFile){ preview.src = URL.createObjectURL(thumbFile); return; }
-    if(url){ preview.src = url; return; }
-    if(videoFile){ preview.src = URL.createObjectURL(videoFile); return; }
-    preview.src = thumbSrc(post);
-  };
-  pvideo.onchange = refresh; pthumb.onchange = refresh; purl.oninput = refresh; refresh();
-  document.getElementById('savePost').onclick = async()=>{
-    try{
-      const title = document.getElementById('ptitle').value.trim();
-      const thumbnailUrl = purl.value.trim();
-      const videoFile = pvideo.files?.[0];
-      const thumbFile = pthumb.files?.[0];
-      const fd = new FormData();
-      fd.append('title', title);
-      fd.append('thumbnailUrl', thumbnailUrl);
-      if(videoFile) fd.append('video', videoFile);
-      if(thumbFile) fd.append('thumbnailFile', thumbFile);
-      else if(!thumbnailUrl && videoFile) fd.append('thumbnailFile', await createThumbnailFileFromVideo(videoFile));
-      await api(post.id ? `/api/posts/${post.id}` : '/api/posts', post.id ? 'PUT' : 'POST', fd, true);
-      toast(post.id ? 'Updated' : 'Posted');
-      closeModal();
-      await boot(false);
-    }catch(e){ toast(e.message); }
-  };
-}
-function profileForm(){
-  return `
-    <h3 style="margin-top:0">Edit Profile</h3>
-    <div class="grid">
-      <input id="newUsername" placeholder="new username" value="${me.username}">
-      <input id="currentPassword" type="password" placeholder="current password">
-      <input id="newPassword" type="password" placeholder="new password">
-      <button class="btn" id="saveProfile">Save</button>
-      <div class="small">Username ba password change korte paro. Admin er jonno option nai.</div>
-    </div>`;
-}
-function openProfile(){
-  showModal(profileForm());
-  document.getElementById('saveProfile').onclick = async()=>{
-    try{
-      await api('/api/auth/profile','POST',{
-        currentPassword: document.getElementById('currentPassword').value,
-        newUsername: document.getElementById('newUsername').value,
-        newPassword: document.getElementById('newPassword').value,
-      });
-      toast('Profile updated');
-      closeModal();
-      await boot();
-    }catch(e){ toast(e.message); }
-  };
-}
-async function votePost(id){ try{ await api(`/api/posts/${id}/rate`,'POST',{rating:Number(document.getElementById('r-'+id).value)}); toast('Voted'); await boot(false); }catch(e){ toast(e.message); } }
-async function delPost(id){ if(!confirm('Delete?')) return; try{ await api(`/api/posts/${id}`,'DELETE'); toast('Deleted'); await boot(false); }catch(e){ toast(e.message); } }
-async function editPost(id){ const p = state.posts.find(x=>x.id===id); if(!p) return; openPostModal(p); }
-async function addPost(){ openPostModal({}); }
-async function adminPanel(){
-  const { members } = await api('/api/admin/members');
-  const { posts } = await api('/api/admin/posts');
-  app.innerHTML = `
-    <div class="card"><button class="btn" onclick="addPost()">+ Add Post</button></div>
-    <div class="card"><h3 style="margin-top:0">Members</h3>${members.map(m=>`<div class="member"><div><b>${m.username}</b> ${m.role==='admin' ? '<span class="tag">Admin</span>' : ''} ${m.kicked ? '<span class="tag">Kicked</span>' : ''}<div class="small">Rank ${m.rank} · ${m.top10Points} pts · Posts ${m.postCount}</div></div><div style="min-width:126px;display:grid;gap:6px">${m.role!=='admin'?`<button class="ghost" onclick="toggleKick('${m.username}', ${m.kicked})">${m.kicked ? 'Restore' : 'Kick'}</button><button class="danger" onclick="deleteMember('${m.username}')">Delete</button>`:''}</div></div>`).join('')}</div>
-    <div class="card"><h3 style="margin-top:0">Posts</h3>${posts.map(postCard).join('')}</div>`;
-}
-async function toggleKick(u, kicked){ try{ await api(`/api/admin/members/${encodeURIComponent(u)}/${kicked ? 'restore' : 'kick'}`,'POST'); toast('Saved'); await boot(false); }catch(e){ toast(e.message); } }
-async function deleteMember(u){ if(!confirm('Delete member?')) return; try{ await api(`/api/admin/members/${encodeURIComponent(u)}`,'DELETE'); toast('Deleted'); await boot(false); }catch(e){ toast(e.message); } }
-function render(){
-  if(!me){ loginView(); return; }
-  topUI();
-  setTabs();
-  profileBtn.onclick = ()=>{ userMenu.classList.remove('show'); openProfile(); };
-  if(currentTab === 'admin' && me.role === 'admin') return adminPanel();
-  if(currentTab === 'rank'){
-    app.innerHTML = `
-      <div class="card">
-        <div class="row">
-          <div><div class="small">Total Points</div><div style="font-size:28px;font-weight:900">${state.top10Total}</div></div>
-          <div><div class="small">Current Rank</div><div class="badge" style="background:${state.rank.color}12;border-color:${state.rank.color}44;color:${state.rank.color};font-weight:900">${state.rank.name}</div></div>
-        </div>
-        <div class="meta" style="margin-top:10px"><span>Videos Counted (up to 10)</span><span>${state.counted}/10</span></div>
-        <div class="meta" style="margin-top:6px"><span>Members</span><span>${state.membersCount}</span></div>
-        <div class="small" style="margin-top:8px">4-5 video thakleo rank hobe; 10 porjonto best videos count hoy</div>
-      </div>
-      <div class="card"><h3 style="margin-top:0">Rank Table</h3><div class="ranktable">${rankRows()}</div></div>
-      <div class="card"><h3 style="margin-top:0">Member Leaderboard</h3><div class="leader">${leaderboardHtml()}</div></div>`;
+
+// ─── Videos ────────────────────────────────────────────────────────────────────
+async function loadVideos() {
+  const grid = document.getElementById('videoGrid');
+  grid.innerHTML = '<div class="empty-state"><div class="spinner"></div><p style="margin-top:12px">Loading…</p></div>';
+
+  const res = await fetch('/videos/list');
+  const data = await res.json();
+  videosCache = data.videos || [];
+
+  if (videosCache.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.069A1 1 0 0121 8.868v6.264a1 1 0 01-1.447.9L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg><p>No videos yet. Be the first to upload!</p></div>';
     return;
   }
-  const sorted = [...state.posts].sort((a,b)=>b.totalPoints-a.totalPoints || new Date(b.createdAt)-new Date(a.createdAt));
-  app.innerHTML = `<div class="card"><button class="btn" onclick="addPost()">+ Add Post</button><div class="small" style="margin-top:8px">Video upload, thumbnail file/url, auto thumbnail</div></div>${sorted.map(postCard).join('')}`;
+
+  // Get user votes for all videos
+  let userVotes = {};
+  if (currentUser && !currentUser.is_admin) {
+    for (const v of videosCache) {
+      try {
+        const r = await fetch(`/vote/check/${v.id}`);
+        const d = await r.json();
+        if (d.voted) userVotes[v.id] = d.rating;
+      } catch {}
+    }
+  }
+
+  grid.innerHTML = '';
+  for (const v of videosCache) {
+    grid.appendChild(buildVideoCard(v, userVotes[v.id] ?? null));
+  }
 }
-async function boot(){
-  const x = await fetch('/api/me').then(r=>r.json());
-  me = x.user;
-  if(!me){ render(); return; }
-  const d = await api('/api/dashboard');
-  state.posts = d.posts;
-  state.rank = d.rank;
-  state.top10Total = d.top10Total;
-  state.counted = d.counted;
-  state.membersCount = d.membersCount;
-  state.leaderboard = d.leaderboard;
-  render();
+
+function buildVideoCard(v, userVoteRating) {
+  const card = document.createElement('div');
+  card.className = 'video-card';
+  card.id = `card-${v.id}`;
+
+  const isOwner = currentUser && currentUser.id === v.user_id;
+  const isAdmin = currentUser && currentUser.is_admin;
+  const canVote = currentUser && !currentUser.is_admin;
+  const alreadyVoted = userVoteRating !== null && userVoteRating !== undefined;
+
+  const thumbSrc = v.thumbnail_url || '';
+  const thumbHtml = thumbSrc
+    ? `<img src="${esc(thumbSrc)}" alt="${esc(v.title)}" loading="lazy">`
+    : `<div style="width:100%;height:100%;background:#1a1a1a;display:flex;align-items:center;justify-content:center"><svg width="40" height="40" fill="none" stroke="#555" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.069A1 1 0 0121 8.868v6.264a1 1 0 01-1.447.9L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></div>`;
+
+  const voteSection = canVote ? (
+    alreadyVoted
+      ? `<div class="vote-done">✓ You rated: ${userVoteRating}/10</div>`
+      : `<div class="vote-box">
+          <div class="vote-label"><span>Rate this video</span><strong id="slider-val-${v.id}">5</strong></div>
+          <input type="range" min="0" max="10" step="0.5" value="5" id="slider-${v.id}" oninput="document.getElementById('slider-val-${v.id}').textContent=this.value">
+          <button class="btn btn-primary btn-sm" onclick="submitVote('${v.id}')">Submit Vote</button>
+        </div>`
+  ) : '';
+
+  card.innerHTML = `
+    <div class="video-thumb" onclick="openVideo('${v.id}')">
+      ${thumbHtml}
+      <video src="${esc(v.video_url)}" preload="none" loop muted></video>
+      <div class="play-overlay">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+    </div>
+    <div class="video-body">
+      <div class="video-title">${esc(v.title)}</div>
+      <div class="video-meta">
+        <span>by <strong>${esc(v.creator_username)}</strong></span>
+        <span class="video-rating">★ ${v.avg_rating} <span style="font-weight:400;font-size:12px">(${v.total_votes})</span></span>
+      </div>
+      ${(isOwner || isAdmin) ? `
+      <div class="video-actions">
+        <button class="btn btn-secondary btn-sm" onclick="openEditModal('${v.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteVideo('${v.id}')">Delete</button>
+      </div>` : ''}
+      ${voteSection}
+    </div>
+  `;
+  return card;
 }
-avatarBtn.addEventListener('click', ()=> userMenu.classList.toggle('show'));
-document.addEventListener('click', e=>{ if(!avatarBtn.contains(e.target) && !userMenu.contains(e.target)) userMenu.classList.remove('show'); });
-document.getElementById('logoutBtn').onclick = async()=>{ try{ await api('/api/auth/logout','POST'); }catch{} me=null; state={posts:[], rank:{name:'F',color:'#555'}, top10Total:0, counted:0, membersCount:0, leaderboard:[]}; userMenu.classList.remove('show'); render(); toast('Logged out'); };
-document.getElementById('tabs').addEventListener('click', e=>{ if(!e.target.classList.contains('tab')) return; currentTab = e.target.dataset.tab; setTabs(); render(); });
-window.addPost = addPost;
-window.votePost = votePost;
-window.editPost = editPost;
-window.delPost = delPost;
-window.toggleKick = toggleKick;
-window.deleteMember = deleteMember;
-boot();
+
+function openVideo(id) {
+  const v = videosCache.find(x => x.id === id);
+  if (!v) return;
+  document.getElementById('viewModalTitle').textContent = v.title;
+  const vid = document.getElementById('viewVideo');
+  vid.src = v.video_url;
+  vid.play();
+  document.getElementById('viewVideoInfo').innerHTML = `By <strong>${esc(v.creator_username)}</strong> · ★ ${v.avg_rating} (${v.total_votes} votes)`;
+  openModal('viewModal');
+}
+
+document.getElementById('viewModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('viewModal')) {
+    document.getElementById('viewVideo').pause();
+    closeModal('viewModal');
+  }
+});
+
+// ─── Create / Edit Video ───────────────────────────────────────────────────────
+function openCreateModal() {
+  editingVideoId = null;
+  document.getElementById('videoModalTitle').textContent = 'Upload Video';
+  document.getElementById('videoSubmitBtn').textContent = 'Upload';
+  document.getElementById('videoTitle').value = '';
+  document.getElementById('videoFile').value = '';
+  document.getElementById('thumbnailFile').value = '';
+  document.getElementById('editingVideoId').value = '';
+  document.getElementById('videoFileGroup').style.display = '';
+  document.getElementById('videoModalError').classList.remove('show');
+  openModal('videoModal');
+}
+
+function openEditModal(id) {
+  const v = videosCache.find(x => x.id === id);
+  if (!v) return;
+  editingVideoId = id;
+  document.getElementById('videoModalTitle').textContent = 'Edit Post';
+  document.getElementById('videoSubmitBtn').textContent = 'Save';
+  document.getElementById('videoTitle').value = v.title;
+  document.getElementById('videoFile').value = '';
+  document.getElementById('thumbnailFile').value = '';
+  document.getElementById('editingVideoId').value = id;
+  document.getElementById('videoFileGroup').style.display = 'none';
+  document.getElementById('videoModalError').classList.remove('show');
+  openModal('videoModal');
+}
+
+async function submitVideo() {
+  const title = document.getElementById('videoTitle').value.trim();
+  const videoFile = document.getElementById('videoFile').files[0];
+  const thumbFile = document.getElementById('thumbnailFile').files[0];
+  const isEdit = !!editingVideoId;
+  const errEl = document.getElementById('videoModalError');
+  errEl.classList.remove('show');
+
+  if (!title) { showAlert(errEl, 'Title is required'); return; }
+  if (!isEdit && !videoFile) { showAlert(errEl, 'Please select a video file'); return; }
+  if (videoFile && videoFile.size > 200 * 1024 * 1024) { showAlert(errEl, 'Video must be under 200MB'); return; }
+  if (thumbFile && thumbFile.size > 10 * 1024 * 1024) { showAlert(errEl, 'Thumbnail must be under 10MB'); return; }
+
+  const fd = new FormData();
+  fd.append('title', title);
+  if (videoFile) fd.append('video', videoFile);
+  if (thumbFile) fd.append('thumbnail', thumbFile);
+
+  // Show progress
+  const prog = document.getElementById('uploadProgress');
+  const fill = document.getElementById('uploadProgressFill');
+  const status = document.getElementById('uploadStatus');
+  prog.classList.add('show');
+  status.textContent = 'Uploading…';
+  fill.style.width = '10%';
+
+  const submitBtn = document.getElementById('videoSubmitBtn');
+  submitBtn.disabled = true;
+
+  // Simulate upload progress
+  let progress = 10;
+  const progressInterval = setInterval(() => {
+    if (progress < 85) {
+      progress += Math.random() * 8;
+      fill.style.width = Math.min(progress, 85) + '%';
+    }
+  }, 300);
+
+  try {
+    const url = isEdit ? `/videos/update/${editingVideoId}` : '/videos/create';
+    const method = isEdit ? 'PUT' : 'POST';
+
+    const res = await fetch(url, { method, body: fd });
+    const data = await res.json();
+
+    clearInterval(progressInterval);
+
+    if (!res.ok) {
+      fill.style.width = '0%';
+      prog.classList.remove('show');
+      submitBtn.disabled = false;
+      showAlert(errEl, data.error);
+      return;
+    }
+
+    fill.style.width = '100%';
+    status.textContent = 'Done!';
+    setTimeout(() => {
+      prog.classList.remove('show');
+      fill.style.width = '0%';
+      submitBtn.disabled = false;
+      closeModal('videoModal');
+      loadVideos();
+    }, 600);
+
+  } catch (err) {
+    clearInterval(progressInterval);
+    prog.classList.remove('show');
+    submitBtn.disabled = false;
+    showAlert(errEl, 'Upload failed: ' + err.message);
+  }
+}
+
+async function deleteVideo(id) {
+  if (!confirm('Delete this video? This cannot be undone.')) return;
+  const res = await fetch(`/videos/delete/${id}`, { method: 'DELETE' });
+  if (res.ok) loadVideos();
+  else { const d = await res.json(); alert(d.error); }
+}
+
+// ─── Voting ────────────────────────────────────────────────────────────────────
+async function submitVote(videoId) {
+  const slider = document.getElementById(`slider-${videoId}`);
+  const rating = parseFloat(slider.value);
+
+  const res = await fetch('/vote', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ video_id: videoId, rating })
+  });
+  const data = await res.json();
+
+  if (!res.ok) { alert(data.error); return; }
+
+  // Update card in place
+  const card = document.getElementById(`card-${videoId}`);
+  if (card) {
+    const ratingEl = card.querySelector('.video-rating');
+    if (ratingEl) ratingEl.innerHTML = `★ ${data.avg_rating} <span style="font-weight:400;font-size:12px">(${data.total_votes})</span>`;
+    const voteBox = card.querySelector('.vote-box');
+    if (voteBox) voteBox.outerHTML = `<div class="vote-done">✓ You rated: ${rating}/10</div>`;
+  }
+  // Update cache
+  const idx = videosCache.findIndex(v => v.id === videoId);
+  if (idx >= 0) {
+    videosCache[idx].avg_rating = data.avg_rating;
+    videosCache[idx].total_votes = data.total_votes;
+  }
+}
+
+// ─── Ranking ───────────────────────────────────────────────────────────────────
+async function loadRanking() {
+  const tbody = document.getElementById('rankBody');
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px"><div class="spinner"></div></td></tr>';
+
+  const res = await fetch('/ranking');
+  const data = await res.json();
+  const ranking = data.ranking || [];
+
+  if (ranking.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">No members yet</td></tr>';
+    return;
+  }
+
+  const maxPoints = ranking[0]?.points || 1;
+  tbody.innerHTML = '';
+
+  ranking.forEach((r, i) => {
+    const pos = i + 1;
+    const posClass = pos === 1 ? 'gold' : pos === 2 ? 'silver' : pos === 3 ? 'bronze' : '';
+    const pct = Math.min(100, Math.round((r.points / Math.max(maxPoints, 1)) * 100));
+    const nextThreshold = getNextThreshold(r.points);
+    const progressPct = nextThreshold > 0 ? Math.min(100, Math.round((r.points / nextThreshold) * 100)) : 100;
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="rank-pos ${posClass}">${pos}</td>
+      <td><div style="display:flex;align-items:center;gap:8px">
+        <div class="avatar">${r.username[0].toUpperCase()}</div>
+        <strong>${esc(r.username)}</strong>
+      </div></td>
+      <td><span class="rank-badge badge-${r.rank}">${r.rank}</span></td>
+      <td><strong>${r.points}</strong></td>
+      <td>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" style="width:${progressPct}%"></div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${r.points}${nextThreshold ? '/' + nextThreshold : '+'}</div>
+      </td>
+      <td>${r.videos_count} <span style="color:var(--muted);font-size:12px">(top ${r.videos_counted})</span></td>
+      <td>${r.total_votes}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function getNextThreshold(pts) {
+  const thresholds = [80, 150, 250, 350, 450, 550, 650];
+  return thresholds.find(t => t > pts) || 0;
+}
+
+// ─── Profile ───────────────────────────────────────────────────────────────────
+function setupProfile() {
+  const isAdmin = currentUser?.is_admin;
+  document.getElementById('adminProfileNote').style.display = isAdmin ? '' : 'none';
+  document.getElementById('usernameGroup').style.display = isAdmin ? 'none' : '';
+  document.getElementById('passwordGroup').style.display = isAdmin ? 'none' : '';
+  document.getElementById('saveProfileBtn').style.display = isAdmin ? 'none' : '';
+  document.getElementById('profileUsername').value = '';
+  document.getElementById('profilePassword').value = '';
+}
+
+async function saveProfile() {
+  const username = document.getElementById('profileUsername').value.trim();
+  const password = document.getElementById('profilePassword').value;
+  const errEl = document.getElementById('profileError');
+  const succEl = document.getElementById('profileSuccess');
+  errEl.classList.remove('show');
+  succEl.classList.remove('show');
+
+  if (!username && !password) {
+    showAlert(errEl, 'Please enter a new username or password');
+    return;
+  }
+
+  const res = await fetch('/profile/update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: username || undefined, password: password || undefined })
+  });
+  const data = await res.json();
+
+  if (!res.ok) { showAlert(errEl, data.error); return; }
+
+  currentUser = data.user;
+  document.getElementById('navUsername').textContent = currentUser.username;
+  showAlert(succEl, 'Profile updated!');
+  document.getElementById('profileUsername').value = '';
+  document.getElementById('profilePassword').value = '';
+}
+
+// ─── Admin ─────────────────────────────────────────────────────────────────────
+async function loadAdminPage() {
+  // Load stats
+  const res = await fetch('/admin/stats');
+  const data = await res.json();
+  document.getElementById('statMembers').textContent = data.members || 0;
+  document.getElementById('statVideos').textContent = data.videos || 0;
+  document.getElementById('statVotes').textContent = data.votes || 0;
+  document.getElementById('statAvg').textContent = data.avg_rating || '0';
+
+  loadMembers();
+  loadAdminPosts();
+}
+
+async function loadMembers(search) {
+  const url = '/admin/users' + (search ? `?search=${encodeURIComponent(search)}` : '');
+  const res = await fetch(url);
+  const data = await res.json();
+  const users = data.users || [];
+  const el = document.getElementById('membersList');
+
+  if (users.length === 0) {
+    el.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px">No members found</p>';
+    return;
+  }
+
+  el.innerHTML = users.map(u => `
+    <div class="user-row">
+      <div class="user-info">
+        <div class="avatar">${u.username[0].toUpperCase()}</div>
+        <div>
+          <strong>${esc(u.username)}</strong>
+          ${u.kicked ? '<span class="kicked-badge">Suspended</span>' : ''}
+        </div>
+      </div>
+      <div class="actions-row">
+        ${u.kicked
+          ? `<button class="btn btn-secondary btn-sm" onclick="adminAction('restore','${u.id}')">Restore</button>`
+          : `<button class="btn btn-secondary btn-sm" onclick="adminAction('kick','${u.id}')">Kick</button>`}
+        <button class="btn btn-danger btn-sm" onclick="adminDeleteUser('${u.id}','${esc(u.username)}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function searchMembers() {
+  clearTimeout(window._memberSearchTimer);
+  window._memberSearchTimer = setTimeout(() => {
+    loadMembers(document.getElementById('memberSearch').value);
+  }, 300);
+}
+
+async function adminAction(action, userId) {
+  const res = await fetch(`/admin/users/${action}/${userId}`, { method: 'POST' });
+  if (res.ok) loadMembers(document.getElementById('memberSearch').value);
+}
+
+async function adminDeleteUser(id, username) {
+  if (!confirm(`Delete user "${username}"? All their videos and votes will be removed.`)) return;
+  const res = await fetch(`/admin/users/delete/${id}`, { method: 'DELETE' });
+  if (res.ok) {
+    loadMembers();
+    loadAdminPosts();
+    loadAdminPage();
+  }
+}
+
+async function loadAdminPosts(search) {
+  const url = '/admin/videos' + (search ? `?search=${encodeURIComponent(search)}` : '');
+  const res = await fetch(url);
+  const data = await res.json();
+  const videos = data.videos || [];
+  const el = document.getElementById('adminPostsList');
+
+  if (videos.length === 0) {
+    el.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px">No posts found</p>';
+    return;
+  }
+
+  el.innerHTML = videos.map(v => `
+    <div class="user-row">
+      <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">
+        <div style="width:60px;height:40px;background:#111;border-radius:6px;overflow:hidden;flex-shrink:0">
+          ${v.thumbnail_url ? `<img src="${esc(v.thumbnail_url)}" style="width:100%;height:100%;object-fit:cover">` : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#555">▶</div>'}
+        </div>
+        <div style="min-width:0">
+          <div style="font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(v.title)}</div>
+          <div style="font-size:12px;color:var(--muted)">by ${esc(v.creator_username)} · ★ ${v.avg_rating} (${v.total_votes})</div>
+        </div>
+      </div>
+      <div class="actions-row">
+        <button class="btn btn-danger btn-sm" onclick="adminDeletePost('${v.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function searchPosts() {
+  clearTimeout(window._postSearchTimer);
+  window._postSearchTimer = setTimeout(() => {
+    loadAdminPosts(document.getElementById('postSearch').value);
+  }, 300);
+}
+
+async function adminDeletePost(id) {
+  if (!confirm('Delete this post permanently?')) return;
+  const res = await fetch(`/videos/delete/${id}`, { method: 'DELETE' });
+  if (res.ok) { loadAdminPosts(); loadAdminPage(); }
+}
+
+async function createUser() {
+  const username = document.getElementById('newUserUsername').value.trim();
+  const password = document.getElementById('newUserPassword').value;
+  const errEl = document.getElementById('createUserError');
+  const succEl = document.getElementById('createUserSuccess');
+  errEl.classList.remove('show');
+  succEl.classList.remove('show');
+
+  if (!username || !password) { showAlert(errEl, 'Username and password required'); return; }
+
+  const res = await fetch('/admin/users/create', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  });
+  const data = await res.json();
+
+  if (!res.ok) { showAlert(errEl, data.error); return; }
+
+  showAlert(succEl, `User "${username}" created!`);
+  document.getElementById('newUserUsername').value = '';
+  document.getElementById('newUserPassword').value = '';
+  loadMembers();
+  loadAdminPage();
+}
+
+async function importUsers() {
+  const file = document.getElementById('seedFile').files[0];
+  const errEl = document.getElementById('importError');
+  const succEl = document.getElementById('importSuccess');
+  errEl.classList.remove('show');
+  succEl.classList.remove('show');
+
+  if (!file) { showAlert(errEl, 'Please select a JSON file'); return; }
+
+  const fd = new FormData();
+  fd.append('seedfile', file);
+
+  const res = await fetch('/admin/users/import', { method: 'POST', body: fd });
+  const data = await res.json();
+
+  if (!res.ok) { showAlert(errEl, data.error); return; }
+
+  showAlert(succEl, `Imported ${data.imported} users, skipped ${data.skipped} existing`);
+  loadMembers();
+  loadAdminPage();
+}
+
+// ─── Tabs ──────────────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ─── Modal helpers ─────────────────────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  if (id === 'viewModal') {
+    document.getElementById('viewVideo').pause();
+    document.getElementById('viewVideo').src = '';
+  }
+}
+
+// Close modals on overlay click
+document.getElementById('videoModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('videoModal')) closeModal('videoModal');
+});
+
+// ─── Utils ─────────────────────────────────────────────────────────────────────
+function esc(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function showAlert(el, msg) {
+  el.textContent = msg;
+  el.classList.add('show');
+}
 </script>
 </body>
 </html>
