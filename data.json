@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "username": "fatema",
+      "passwordHash": "5e84d9e918f3ed393d6eb532a10fd3e75ca98b952e0e7f34b1dd16db47cbec60",
+      "role": "admin",
+      "kicked": false,
+      "createdAt": "2026-06-26T05:31:54.353Z"
+    },
+    {
+      "username": "user1",
+      "passwordHash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "role": "member",
+      "kicked": false,
+      "createdAt": "2026-06-26T05:31:54.354Z"
+    },
+    {
+      "username": "user2",
+      "passwordHash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "role": "member",
+      "kicked": false,
+      "createdAt": "2026-06-26T05:31:54.354Z"
+    },
+    {
+      "username": "moronali",
+      "passwordHash": "b8dc2c143be8994682b08461f46487e05874e59dd9ab65cf973e3a3c67a763aa",
+      "role": "member",
+      "kicked": false,
+      "createdAt": "2026-06-26T05:32:08.860Z"
+    }
+  ],
+  "posts": [
+    {
+      "id": "b8121583-08fe-440b-bc96-1d11b7d1ee12",
+      "title": "moroanli",
+      "owner": "moronali",
+      "createdAt": "2026-06-26T05:32:43.193Z",
+      "videoPath": "",
+      "thumbnailPath": "/uploads/1782451963189-u1gike8kgdg-728627554_2057058091858079_2775715967756325661_n.jpg",
+      "thumbnailUrl": ""
+    }
+  ],
+  "votes": {
+    "b8121583-08fe-440b-bc96-1d11b7d1ee12": {
+      "user1": 9
+    }
+  }
+}
